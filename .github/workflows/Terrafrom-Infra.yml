@@ -1,0 +1,27 @@
+name: Terraform Infra Deployment By Github action
+run-name: ${{ github.actor }}
+on:
+  workflow_dispatch: 
+  # push:
+  #   branches:
+  #     - main
+  #     - dev
+  #     - feature/*
+  # pull_request:
+  #     branches:
+  #       - main
+  #       - dev
+  #       - feature/*
+jobs:
+  terraform:
+    name: Terraform Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout  
+        uses: actions/checkout@v6.0.2
+       - name: HashiCorp - Setup Terraform
+         uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
+         with:
+           terraform_version: 1.13.3
+  
+    
