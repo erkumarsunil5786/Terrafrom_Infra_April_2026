@@ -2,16 +2,6 @@ name: Terraform Infra Deployment By Github action
 run-name: ${{ github.actor }}
 on:
   workflow_dispatch: 
-  # push:
-  #   branches:
-  #     - main
-  #     - dev
-  #     - feature/*
-  # pull_request:
-  #     branches:
-  #       - main
-  #       - dev
-  #       - feature/*
 jobs:
   terraform:
     name: Terraform Deploy
@@ -20,9 +10,9 @@ jobs:
       - name: Checkout  
         uses: actions/checkout@v6
         
-       - name: HashiCorp-Setup Terraform
-         uses: hashicorp/setup-terraform@v3
-         with:
-           terraform_version: 1.13.3
+      - name: HashiCorp-Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.3
   
     
