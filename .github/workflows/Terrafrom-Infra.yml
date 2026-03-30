@@ -30,10 +30,10 @@ jobs:
           
     steps:
       - name: Checkout  
-       uses: actions/checkout@v6
+        uses: actions/checkout@v6
     
       - name: Terraform Init
-       run: terraform init 
+        run: terraform init 
   
       - name: Terraform Format
         run: terraform fmt
