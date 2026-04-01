@@ -2,6 +2,7 @@
 
 name: ARC Demo (on-demand runners)
 
+run-name: ${{ github.actor }}
 on:
   workflow_dispatch:
   push:
