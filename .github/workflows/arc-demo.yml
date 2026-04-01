@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: arc-runner-set           # this must match the helm INSTALLATION_NAME value 
+    runs-on: arc-runner-set          # this must match the helm INSTALLATION_NAME value 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
