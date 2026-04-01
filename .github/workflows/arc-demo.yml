@@ -1,23 +1,29 @@
 # .github/workflows/arc-demo.yml
 
 name: ARC Demo (on-demand runners)
-
-run-name: ${{ github.actor }}
+run-name: ${{ github.actor }}-${{ github.run_id }}
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
-
 jobs:
   build:
-    runs-on: arc-runner-set          # this must match the helm INSTALLATION_NAME value 
+    runs-on: arc-runner-set
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show runner info
+      - name: Show runner info + IDs
         run: |
-          echo "This job runs on a self-hosted runner managed by ARC"
+          echo "Actor: ${{ github.actor }}"
+          echo "Job ID: ${{ github.job }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run Number: ${{ github.run_number }}"
+          echo "Repo: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+          echo "----- System Info -----"
           hostname
           cat /etc/os-release || true
 
