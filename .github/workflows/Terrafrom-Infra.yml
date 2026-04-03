@@ -1,61 +1,62 @@
-# name: Terraform Infra Deployment By Github action
-# run-name: ${{ github.actor }}
-# on:
-#   push:
-#     branches: ["main"]
-#   pull_request:
-#     branches: ["main"]
-#   workflow_dispatch: 
+name: Terraform Infra Deployment By Github action
+run-name: ${{ github.actor }}
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: 
 
-# permissions:
-#    id-token: write
-#    contents: read
-# jobs:
-#   azlogin:
-#     name: Azure Cloud Portal Login
-#     runs-on: 'self-hosted'                     #ubuntu-latest
-#     steps:
-#         - name: Azure login
-#           uses: azure/login@v3
-#           with:
-#             client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
 
-#   terraforminfrabuild:
-#     name: Infra Code Checkout,Init,Fmt & Build
-#     needs: azlogin
-#     runs-on: 'self-hosted'            #ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: ./environments/dev
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v6
+permissions:
+   id-token: write
+   contents: read
+jobs:
+  azlogin:
+    name: Azure Cloud Portal Login
+    runs-on: arc-runner-set             #'self-hosted'                     #ubuntu-latest
+    steps:
+        - name: Azure login
+          uses: azure/login@v3
+          with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
 
-#       - name: HashiCorp-Setup Terraform
-#         uses: hashicorp/setup-terraform@v3
-#         with:
-#           terraform_version: 1.13.3
+  terraforminfrabuild:
+    name: Infra Code Checkout,Init,Fmt & Build
+    needs: azlogin
+    runs-on: arc-runner-set         #'self-hosted'            #ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./environments/dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-#       - name: Azure login
-#         uses: azure/login@v3
-#         with:
-#           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+      - name: HashiCorp-Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.3
+
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
     
-#       - name: Terraform Init
-#         run: terraform init 
+      - name: Terraform Init
+        run: terraform init 
     
-#       - name: Terraform Format
-#         run: terraform fmt
+      - name: Terraform Format
+        run: terraform fmt
         
-#       - name: Terraform Plan 
-#         run: terraform plan
+      - name: Terraform Plan 
+        run: terraform plan
     
-#       - name: Terraform Apply 
-#         run: terraform apply --auto-approve
+      - name: Terraform Apply 
+        run: terraform apply --auto-approve
       
-#       - name: terraform Destroy
-#         run: terraform destroy --auto-approve
+      - name: terraform Destroy
+        run: terraform destroy --auto-approve
